@@ -9,6 +9,12 @@ module Cognition
 
   attr_accessor :plugins, :matchers
 
+  def reset
+    @matchers = []
+    @plugins = []
+    register(Cognition::Plugins::Ping)
+  end
+
   def register(klass)
     return false if plugin_names.include? klass.to_s
     plugins << klass.new
