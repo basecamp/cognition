@@ -11,7 +11,6 @@ module Cognition
 
   def register(klass)
     return false if plugin_names.include? klass.to_s
-
     plugins << klass.new
   end
 
@@ -27,7 +26,7 @@ module Cognition
   end
 
   def help
-    "No such command:\n\n #{matchers.map(&:help).join("\n")}"
+    "No such command:\n\n #{matchers.map(&:help).join('\n')}"
   end
 
   def matchers
