@@ -1,6 +1,6 @@
 module Cognition
   class Message
-    attr_reader :match, :command, :metadata
+    attr_reader :command, :metadata
 
     def initialize(command, metadata = {})
       @command = command
