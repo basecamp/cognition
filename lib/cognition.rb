@@ -34,10 +34,6 @@ module Cognition
     plugins.collect(&:matchers).flatten.compact
   end
 
-  def matcher_triggers
-    matchers.map(&:trigger)
-  end
-
   def plugin_names
     plugins.map { |p| p.class.name }
   end
