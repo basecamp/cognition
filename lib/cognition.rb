@@ -9,18 +9,15 @@ module Cognition
 
   attr_accessor :plugins, :matchers
 
-  def reset
-    @matchers = []
-    @plugins = []
-    register(Cognition::Plugins::Ping)
+  def process(msg, metadata = {})
+    if msg.is_a? Cognition::Message
+      process_msg(msg)
+    else
+      process_string(msg.to_s, metadata)
+    end
   end
 
-  def register(klass)
-    return false if plugin_names.include? klass.to_s
-    plugins << klass.new
-  end
-
-  def process_message(msg)
+  def process_msg(msg)
     response = false
     matchers.each do |matcher|
       if matcher.attempt(msg)
@@ -29,6 +26,21 @@ module Cognition
       end
     end
     response ? response : help
+  end
+
+  def process_string(message, metadata = {})
+    process_msg(Cognition::Message.new(message, metadata))
+  end
+
+  def register(klass)
+    return false if plugin_names.include? klass.to_s
+    plugins << klass.new
+  end
+
+  def reset
+    @matchers = []
+    @plugins = []
+    register(Cognition::Plugins::Ping)
   end
 
   def help

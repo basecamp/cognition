@@ -16,13 +16,21 @@ class CognitionTest < Minitest::Test
 
   def test_processes_messages
     msg = Cognition::Message.new('ping')
-    assert_equal 'PONG', Cognition.process_message(msg)
+    assert_equal 'PONG', Cognition.process(msg)
+  end
+
+  def test_processes_strings
+    assert_equal 'PONG', Cognition.process('ping')
+  end
+
+  def test_processes_strings_with_metadata
+    assert_equal 'PONG', Cognition.process('ping', foo: 'bar')
   end
 
   def test_shows_help_if_no_matches
     Cognition.register(Hello)
     msg = Cognition::Message.new('pong')
-    output = Cognition.process_message(msg)
+    output = Cognition.process(msg)
     assert_match 'No such command:', output
     assert_match 'ping: Returns "PONG"', output
     assert_match 'hello: Returns Hello World', output
