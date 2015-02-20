@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cognate/version'
+require 'cognition/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "cognate"
-  spec.version       = Cognate::VERSION
+  spec.name          = "cognition"
+  spec.version       = Cognition::VERSION
   spec.authors       = ["Nathan Anderson"]
   spec.email         = ["andnat@gmail.com"]
   spec.summary       = %q{A rules engine for running commands.}
   spec.description   = %q{Match text; run commands. Works great for building a chatbot!}
-  spec.homepage      = "https://github.com/anoldguy/cognate"
+  spec.homepage      = "https://github.com/anoldguy/Cognition"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
