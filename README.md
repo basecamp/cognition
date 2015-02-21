@@ -33,13 +33,24 @@ result = Cognition.process('another command', {user_id: 15, name: 'Bob'})
 ```
 
 Internally, `Cognition` will turn your values into a `Cognition::Message` so
-the metadata will be passed along with the message, and the keys will be made
-into methods that return the value. The raw metadata is also made available:
+the metadata will be passed along with the message, and arbitrary metadata
+is available in the #metadata Hash:
 ```ruby
 msg = Cognition::Message('another command', {user_id: 15, name: 'Bob'})
-msg.user_id    # Returns 15
-msg.name       # Returns 'Bob'
 msg.metadata   # Returns { user_id: 15, name: 'Bob' }
+```
+
+## Creating a Plugin
+Creating plugins is easy. Subclass `Cognition::Plugins::Base` and setup your
+matches and logic that should be run:
+```ruby
+class Hello < Cognition::Plugins::Base
+  match 'hello', 'hello: Returns Hello World', :hello
+
+  def hello(*)
+    'Hello World'
+  end
+end
 ```
 
 ## Contributing

@@ -10,8 +10,14 @@ class CognitionTest < Minitest::Test
   def test_registers_plugins
     Cognition.register(Hello)
 
-    assert_equal 2, Cognition.plugins.count
-    assert_instance_of Hello, Cognition.plugins.last
+    assert_equal 2, Cognition.plugin_names.count
+  end
+
+  def test_does_not_register_duplicate_plugins
+    Cognition.register(Hello)
+    Cognition.register(Hello)
+
+    assert_equal 2, Cognition.plugin_names.count
   end
 
   def test_processes_messages
@@ -31,8 +37,6 @@ class CognitionTest < Minitest::Test
     Cognition.register(Hello)
     msg = Cognition::Message.new('pong')
     output = Cognition.process(msg)
-    assert_match 'No such command:', output
-    assert_match 'ping: Returns "PONG"', output
-    assert_match 'hello: Returns Hello World', output
+    assert_match "No such command: pong\nUse 'help' for available commands!", output
   end
 end

@@ -21,12 +21,12 @@ module Cognition
     end
 
     def matches?(msg)
-      if trigger.is_a? String
-        return true if trigger == msg.command
-      elsif trigger.is_a? Regexp
-        return true if (@match = trigger.match msg.command)
+      case trigger
+      when String
+        trigger == msg.command
+      when Regexp
+        trigger.match msg.command
       end
-      false
     end
   end
 end
