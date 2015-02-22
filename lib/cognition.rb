@@ -2,7 +2,7 @@ require 'cognition/version'
 require 'cognition/message'
 require 'cognition/matcher'
 require 'cognition/plugins/base'
-require 'cognition/plugins/ping'
+require 'cognition/plugins/default'
 
 module Cognition
   extend self
@@ -25,7 +25,7 @@ module Cognition
   def reset
     @matchers = []
     @plugins = []
-    register(Cognition::Plugins::Ping)
+    register(Cognition::Plugins::Default)
   end
 
   def plugin_names
@@ -33,7 +33,7 @@ module Cognition
   end
 
   def help
-    matchers.map(&:help).join('\n')
+    matchers.map(&:help)
   end
 
   private
@@ -50,7 +50,7 @@ module Cognition
     end
 
     def process_string(message, metadata = {})
-      process_msg(Cognition::Message.new(message, metadata))
+      process_msg(Cognition::Message.new(message.strip, metadata))
     end
 
     def matchers
@@ -66,5 +66,5 @@ module Cognition
     end
 end
 
-# Default plugin, responds to 'ping' with 'PONG'
-Cognition.register(Cognition::Plugins::Ping)
+# Default plugin, responds to 'ping' with 'PONG' and provides help text
+Cognition.register(Cognition::Plugins::Default)
