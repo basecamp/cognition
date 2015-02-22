@@ -50,4 +50,11 @@ class MatcherTest < Minitest::Test
     matcher = Cognition::Matcher.new(/ping/, 'test', &Proc.new {'PONG'})
     refute matcher.attempt(msg)
   end
+
+  def test_sets_matches_on_message
+    msg = Cognition::Message.new('hello john')
+    matcher = Cognition::Matcher.new(/hello\s*(?<name>.*)/, 'test', &Proc.new {'PONG'})
+    matcher.attempt(msg)
+    assert_equal "john", msg.matches[:name]
+  end
 end
