@@ -25,7 +25,7 @@ module Cognition
       when String
         trigger == msg.command
       when Regexp
-        trigger.match msg.command
+        msg.matches = trigger.match msg.command
       end
     end
   end
