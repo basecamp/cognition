@@ -45,10 +45,21 @@ Creating plugins is easy. Subclass `Cognition::Plugins::Base` and setup your
 matches and logic that should be run:
 ```ruby
 class Hello < Cognition::Plugins::Base
+  # Simple string based matcher. Must match *EXACTLY*
   match 'hello', 'hello: Returns Hello World', :hello
+
+  # Advanced Regexp based matcher. Capture groups are made available
+  # via MatchData in the matches method
+  match /hello\s*(?<name>.*)/, 'hello <name>', :hello_person
+
 
   def hello(*)
     'Hello World'
+  end
+
+  def hello_person(msg)
+    name = msg.matches[:name]
+    "Hello #{name}"
   end
 end
 ```
