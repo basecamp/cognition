@@ -9,7 +9,7 @@ class CognitionTest < Minitest::Test
   end
 
   def test_sets_responder_if_callback_url
-    msg = Cognition::Message.new('ping', callback_url: 'http://foo.bar/')
+    msg = Cognition::Message.new('ping', 'callback_url' => 'http://foo.bar/')
     assert_kind_of Cognition::Responder, msg.responder
   end
 
