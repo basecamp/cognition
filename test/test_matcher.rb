@@ -51,10 +51,21 @@ class MatcherTest < Minitest::Test
     refute matcher.attempt(msg)
   end
 
-  def test_sets_matches_on_message
+  def test_sets_match_data
     msg = Cognition::Message.new('hello john')
     matcher = Cognition::Matcher.new(/hello\s*(?<name>.*)/, 'test', &Proc.new {'PONG'})
-    matcher.attempt(msg)
-    assert_equal "john", msg.matches[:name]
+    matcher.matches?(msg)
+    assert_equal "john", matcher.match_data[:name]
   end
+
+  def test_captures_response
+    msg = Cognition::Message.new('hello john')
+    matcher = Cognition::Matcher.new(/hello\s*(?<name>.*)/, 'test', &Proc.new(&method(:dummy_method)))
+    matcher.attempt(msg)
+    assert_equal "Hello john", matcher.response
+  end
+end
+
+def dummy_method(msg, match_data)
+  "Hello #{match_data['name']}"
 end

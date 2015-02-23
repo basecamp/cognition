@@ -1,6 +1,6 @@
 module Cognition
   class Matcher
-    attr_accessor :trigger, :action, :response, :help
+    attr_reader :trigger, :action, :response, :help, :match_data
 
     def initialize(trigger, help = 'Undocumented', &action)
       raise ArgumentError, 'matcher must have a trigger' unless trigger
@@ -17,7 +17,7 @@ module Cognition
     end
 
     def run(msg)
-      @response = action.call(msg)
+      @response = action.call(msg, match_data)
     end
 
     def matches?(msg)
@@ -25,7 +25,7 @@ module Cognition
       when String
         trigger == msg.command
       when Regexp
-        msg.matches = trigger.match msg.command
+        @match_data = trigger.match msg.command
       end
     end
   end
