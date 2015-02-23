@@ -7,4 +7,14 @@ class CognitionTest < Minitest::Test
     assert_equal 15, msg.metadata[:user_id]
     assert_equal 'bar', msg.metadata[:foo]
   end
+
+  def test_sets_responder_if_callback_url
+    msg = Cognition::Message.new('ping', callback_url: 'http://foo.bar/')
+    assert_kind_of Cognition::Responder, msg.responder
+  end
+
+  def test_no_responder_if_no_callback_url
+    msg = Cognition::Message.new('ping', user: { name: 'foo', id: 123456 })
+    refute msg.responder
+  end
 end

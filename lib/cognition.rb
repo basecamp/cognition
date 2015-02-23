@@ -1,6 +1,7 @@
 require 'cognition/version'
 require 'cognition/message'
 require 'cognition/matcher'
+require 'cognition/responder'
 require 'cognition/plugins/base'
 require 'cognition/plugins/default'
 
