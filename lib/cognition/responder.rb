@@ -10,7 +10,7 @@ module Cognition
     end
 
     def reply(text)
-      self.class.post(@uri, @options.merge({ content: text }))
+      self.class.post(@uri, @options.merge(body: { content: text }))
     rescue Timeout::Error => e
       "Request to #{@uri} timed out."
     end
