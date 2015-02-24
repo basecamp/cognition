@@ -4,13 +4,13 @@ module Cognition
       attr_accessor :matchers
 
       def initialize
-        @matchers = self.class.definitions.collect do |trigger, help, method_name|
-          Matcher.new(trigger, help, &Proc.new(&method(method_name)))
+        @matchers = self.class.definitions.collect do |trigger, method_name, options|
+          Matcher.new(trigger, options, &Proc.new(&method(method_name)))
         end
       end
 
-      def self.match(trigger, help, action)
-        definitions << [trigger, help, action]
+      def self.match(trigger, action, options = {})
+        definitions << [trigger, action, options]
       end
 
       def self.definitions

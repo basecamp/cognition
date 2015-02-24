@@ -65,18 +65,28 @@ class Hello < Cognition::Plugins::Base
 
   # Advanced Regexp based matcher. Capture groups are made available
   # via MatchData in the matches method
-  match /hello\s*(?<name>.*)/, 'hello <name>', :hello_person
+  match /hello\s*(?<name>.*)/, :hello_person, help: {
+    'hello <name>' => 'Greets you by name!'
+  }
 
 
   def hello(*)
     'Hello World'
   end
 
-  def hello_person(msg)
-    name = msg.matches[:name]
+  def hello_person(msg, match_data = nil)
+    name = match_data[:name]
     "Hello #{name}"
   end
 end
+```
+
+After you've done that, you will be able to do:
+```ruby
+Cognition.register(Hello)
+Cognition.process("help hello")  # "hello <name> - Greets you by name!"
+Cognition.process("hello")       # "Hello World"
+Cognition.process("hello foo")   # "Hello foo"
 ```
 
 ## Contributing

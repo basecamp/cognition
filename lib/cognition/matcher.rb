@@ -2,12 +2,18 @@ module Cognition
   class Matcher
     attr_reader :trigger, :action, :response, :help, :match_data
 
-    def initialize(trigger, help = 'Undocumented', &action)
+    def initialize(trigger, options = {}, &action)
       raise ArgumentError, 'matcher must have a trigger' unless trigger
       raise ArgumentError, 'matcher must have a action' unless action
       @trigger = trigger
-      @help = help
+      @help = options[:help] ||= {}
       @action = action
+    end
+
+    def help
+      @help.map do |command, description|
+        "#{command} - #{description}"
+      end
     end
 
     def attempt(msg)

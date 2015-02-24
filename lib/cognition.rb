@@ -34,7 +34,7 @@ module Cognition
   end
 
   def help
-    matchers.map(&:help)
+    matchers.flat_map(&:help)
   end
 
   private
