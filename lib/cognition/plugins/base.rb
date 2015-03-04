@@ -4,6 +4,7 @@ require 'tilt'
 module Cognition
   module Plugins
     class PluginTemplateNotFound < StandardError; end
+
     class Base
       class <<self
         attr_accessor :view_root
@@ -42,8 +43,7 @@ module Cognition
         options = RENDER_DEFAULTS.merge(opts)
         calling_method = caller[0][/`([^']*)'/, 1]
         template = options[:template] || template_file(calling_method, options[:type], options[:engine])
-        @template ||= Tilt.new(template)
-        @template.render(self, options[:locals])
+        Tilt.new(template).render(self, options[:locals])
       rescue Errno::ENOENT => e
         raise PluginTemplateNotFound, e
       end
