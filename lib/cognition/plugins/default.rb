@@ -15,11 +15,14 @@ module Cognition
       end
 
       def help(msg, match_data = nil)
+        type = msg.metadata[:type] ||= "text"
         if match_data['command'].empty?
-          bot.help.join("\n")
+          @help = bot.help
         else
-          bot.help.find_all { |text| text.match match_data[:command] }.join("\n")
+          @help = bot.help.find_all { |text| text.match match_data[:command] }
+
         end
+        render(type: type)
       end
     end
   end
