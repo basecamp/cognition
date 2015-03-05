@@ -114,7 +114,7 @@ class Hello < Cognition::Plugins::Base
   end
 
   def hey(*)
-    render(type: "text", engine: "haml")
+    render(type: "text", extension: "haml")
   end
 end
 ```
@@ -129,7 +129,7 @@ The `render` method takes a hash with the following keys:
 {
   template: "full/path/to/template/file", # FULL path to template file
   type: "type of response"                # text, html, json, etc...
-  engine: "engine file extension"         # erb, haml, etc...
+  extension: "engine file extension"      # erb, haml, etc...
   locals: {x: "foo", y: "bar"}            # local variables, access as x & y
 }
 ```

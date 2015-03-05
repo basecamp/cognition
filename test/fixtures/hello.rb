@@ -25,7 +25,7 @@ class Hello < Cognition::Plugins::Base
 
   def hey(msg, match_data = nil)
     @message = 'Hey'
-    render(engine: "haml")
+    render(extension: "haml")
   end
 
   def yo(msg, match_data = nil)

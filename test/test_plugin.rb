@@ -24,7 +24,7 @@ class PluginTest < Minitest::Test
     assert_equal "Bonjour is french!\n", @hello.bonjour("foo")
   end
 
-  def test_renders_specified_engine
+  def test_renders_specified_extension
     assert_equal "<h1>Hey</h1>\n", @hello.hey("foo")
   end
 

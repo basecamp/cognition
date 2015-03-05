@@ -12,7 +12,7 @@ module Cognition
 
       RENDER_DEFAULTS = {
         type: "html",
-        engine: "erb"
+        extension: "erb"
       }
 
       # Inherited callback to set a class-level instance variable on the
@@ -42,7 +42,7 @@ module Cognition
       def render(opts = {})
         options = RENDER_DEFAULTS.merge(opts)
         calling_method = caller[0][/`([^']*)'/, 1]
-        template = options[:template] || template_file(calling_method, options[:type], options[:engine])
+        template = options[:template] || template_file(calling_method, options[:type], options[:extension])
         Tilt.new(template).render(self, options[:locals])
       rescue Errno::ENOENT => e
         raise PluginTemplateNotFound, e
@@ -50,9 +50,9 @@ module Cognition
 
       private
 
-        def template_file(name, type, engine)
+        def template_file(name, type, extension)
           # Defaults to html ERB for now. Override when calling #render(path_to_file)
-          File.join(templates_path, "#{name}.#{type}.#{engine}")
+          File.join(templates_path, "#{name}.#{type}.#{extension}")
         end
 
         def underscore(string)
