@@ -16,9 +16,9 @@ module Cognition
 
       def help(msg, match_data = nil)
         if match_data['command'].empty?
-          Cognition.help.join("\n")
+          bot.help.join("\n")
         else
-          Cognition.help.find_all { |text| text.match match_data[:command] }.join("\n")
+          bot.help.find_all { |text| text.match match_data[:command] }.join("\n")
         end
       end
     end

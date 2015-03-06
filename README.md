@@ -22,14 +22,19 @@ Or install it yourself as:
 
 ## Usage
 
+Instantiate:
+```ruby
+bot = Cognition::Bot.new
+```
+
 Process your message:
 ```ruby
-result = Cognition.process('command I need to process')
+result = bot.process('command I need to process')
 ```
 
 You can also include metadata with your message, like user info, or whatever:
 ```ruby
-result = Cognition.process('another command', {user_id: 15, name: 'Bob'})
+result = bot.process('another command', {user_id: 15, name: 'Bob'})
 ```
 
 Internally, `Cognition` will turn your values into a `Cognition::Message` so
@@ -83,10 +88,10 @@ end
 
 After you've done that, you will be able to do:
 ```ruby
-Cognition.register(Hello)
-Cognition.process("help hello")  # "hello <name> - Greets you by name!"
-Cognition.process("hello")       # "Hello World"
-Cognition.process("hello foo")   # "Hello foo"
+bot.register(Hello)
+bot.process("help hello")  # "hello <name> - Greets you by name!"
+bot.process("hello")       # "Hello World"
+bot.process("hello foo")   # "Hello foo"
 ```
 
 ## Contributing
