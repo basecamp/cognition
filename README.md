@@ -94,6 +94,46 @@ bot.process("hello")       # "Hello World"
 bot.process("hello foo")   # "Hello foo"
 ```
 
+### Rendering templates
+Templates are opt-in right now, you need to call `render` yourself, and it
+will return a string with the rendered contents of a template. What template,
+you ask? The default for `/path/to/hello.rb` will look for a templates in
+`/path/to/hello/views/`.
+
+Given the following plugin:
+```ruby
+class Hello < Cognition::Plugins::Base
+  # ...snipped
+
+  def hello(*)
+    render
+  end
+
+  def hi(*)
+    render(template: "/path/to/template.html.erb")
+  end
+
+  def hey(*)
+    render(type: "text", extension: "haml")
+  end
+end
+```
+
+  1. The `hello` method will look for `/path/to/hello/views/hello.html.erb`
+  2. The `hi` method will look for `/path/to/template.html.erb`
+  3. The `hey` method will look for `/path/to/hello/views/hey.text.haml`
+
+Setting instance variables or passing locals is up to the plugin creator.
+The `render` method takes a hash with the following keys:
+```ruby
+{
+  template: "full/path/to/template/file", # FULL path to template file
+  type: "type of response"                # text, html, json, etc...
+  extension: "engine file extension"      # erb, haml, etc...
+  locals: {x: "foo", y: "bar"}            # local variables, access as x & y
+}
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/anoldguy/cognition/fork )

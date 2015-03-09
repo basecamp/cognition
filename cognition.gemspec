@@ -19,9 +19,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "httparty", "~> 0.8.1"
+  spec.add_dependency "tilt", "~> 1.4.1"
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest", "~> 5.0.0"
   spec.add_development_dependency "webmock", "~> 1.20.4"
+  spec.add_development_dependency "haml", "~> 4.0.6"
 end
