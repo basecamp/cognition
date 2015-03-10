@@ -1,3 +1,9 @@
+# Not Under Active Development
+As of 03-2015, Cognition is no longer under active development. If this
+changes in the future, I will post it here.  Feel free to use this code as you
+see fit in accordance with the LICENSE file!
+
+
 # Cognition
 
 This is a gem that parses a message, and compares it to various matchers.
