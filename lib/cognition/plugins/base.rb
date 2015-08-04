@@ -1,5 +1,6 @@
 require 'erb'
 require 'tilt'
+require 'cgi'
 
 module Cognition
   module Plugins
