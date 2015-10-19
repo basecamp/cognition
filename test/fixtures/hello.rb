@@ -1,5 +1,5 @@
 require 'tilt/haml'
-require 'tilt/erubis'
+require 'tilt/erb'
 require 'haml'
 class Hello < Cognition::Plugins::Base
   match 'hello', :hello, help: {

@@ -1,4 +1,4 @@
-require 'webmock/test_unit'
+require 'webmock/minitest'
 
 class Minitest::Test
   include WebMock::API
