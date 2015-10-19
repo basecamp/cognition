@@ -24,6 +24,8 @@ module Cognition
 
     def run(msg)
       @response = action.call(msg, match_data)
+    rescue => e
+      @response = "'#{msg.command}' found, but raised #{e.inspect}"
     end
 
     def matches?(msg)
