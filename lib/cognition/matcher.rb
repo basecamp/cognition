@@ -3,8 +3,8 @@ module Cognition
     attr_reader :trigger, :action, :response, :help, :match_data
 
     def initialize(trigger, options = {}, &action)
-      raise ArgumentError, 'matcher must have a trigger' unless trigger
-      raise ArgumentError, 'matcher must have a action' unless action
+      fail ArgumentError, "matcher must have a trigger" unless trigger
+      fail ArgumentError, "matcher must have a action" unless action
       @trigger = trigger
       @help = options[:help] ||= {}
       @action = action

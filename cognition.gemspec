@@ -1,15 +1,15 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cognition/version'
+require "cognition/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "cognition"
   spec.version       = Cognition::VERSION
   spec.authors       = ["Nathan Anderson"]
   spec.email         = ["andnat@gmail.com"]
-  spec.summary       = %q{A rules engine for running commands.}
-  spec.description   = %q{Match text; run commands. Works great for building a chatbot!}
+  spec.summary       = "A rules engine for running commands."
+  spec.description   = "Match text; run commands. Works great for building a chatbot!"
   spec.homepage      = "https://github.com/anoldguy/Cognition"
   spec.license       = "MIT"
 

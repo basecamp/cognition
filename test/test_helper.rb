@@ -1,5 +1,7 @@
-require 'webmock/minitest'
+require "webmock/minitest"
 
-class Minitest::Test
-  include WebMock::API
+module Minitest
+  class Test
+    include WebMock::API
+  end
 end

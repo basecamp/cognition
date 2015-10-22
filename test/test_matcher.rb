@@ -1,88 +1,88 @@
-require 'minitest/autorun'
-require 'cognition'
+require "minitest/autorun"
+require "cognition"
 
 class MatcherTest < Minitest::Test
   def test_raises_error_without_a_trigger
     assert_raises ArgumentError do
-      _ = Cognition::Matcher.new(action: 'foo')
+      _ = Cognition::Matcher.new(action: "foo")
     end
   end
 
   def test_raises_error_without_an_action
     assert_raises ArgumentError do
-      _ = Cognition::Matcher.new(trigger: 'foo')
+      _ = Cognition::Matcher.new(trigger: "foo")
     end
   end
 
   def test_matches_string
-    msg = Cognition::Message.new('help')
-    matcher = Cognition::Matcher.new('help', {}, &Proc.new {})
+    msg = Cognition::Message.new("help")
+    matcher = Cognition::Matcher.new("help", {}, &proc {})
     assert matcher.matches?(msg)
   end
 
   def test_string_fails_with_invalid_message
-    msg = Cognition::Message.new('Help')
-    matcher = Cognition::Matcher.new('help', {}, &Proc.new {})
+    msg = Cognition::Message.new("Help")
+    matcher = Cognition::Matcher.new("help", {}, &proc {})
     refute matcher.matches?(msg)
   end
 
   def test_matches_regexp
-    msg = Cognition::Message.new('ping')
-    matcher = Cognition::Matcher.new(/ping/, {}, &Proc.new {})
+    msg = Cognition::Message.new("ping")
+    matcher = Cognition::Matcher.new(/ping/, {}, &proc {})
     assert matcher.matches?(msg)
   end
 
   def test_regexp_fails_with_invalid_message
-    msg = Cognition::Message.new('pink')
-    matcher = Cognition::Matcher.new(/ping/, {}, &Proc.new {})
+    msg = Cognition::Message.new("pink")
+    matcher = Cognition::Matcher.new(/ping/, {}, &proc {})
     refute matcher.matches?(msg)
   end
 
   def test_sets_response_on_attemp_if_matches
-    msg = Cognition::Message.new('ping')
-    matcher = Cognition::Matcher.new(/ping/, {}, &Proc.new {'PONG'})
+    msg = Cognition::Message.new("ping")
+    matcher = Cognition::Matcher.new(/ping/, {}, &proc { "PONG" })
     matcher.attempt(msg)
-    assert_equal 'PONG', matcher.response
+    assert_equal "PONG", matcher.response
   end
 
   def test_returns_false_on_attemp_if_no_match
-    msg = Cognition::Message.new('pink')
-    matcher = Cognition::Matcher.new(/ping/, {}, &Proc.new {'PONG'})
+    msg = Cognition::Message.new("pink")
+    matcher = Cognition::Matcher.new(/ping/, {}, &proc { "PONG" })
     refute matcher.attempt(msg)
   end
 
   def test_sets_match_data
-    msg = Cognition::Message.new('hello john')
-    matcher = Cognition::Matcher.new(/hello\s*(?<name>.*)/, {}, &Proc.new {'PONG'})
+    msg = Cognition::Message.new("hello john")
+    matcher = Cognition::Matcher.new(/hello\s*(?<name>.*)/, {}, &proc { "PONG" })
     matcher.matches?(msg)
     assert_equal "john", matcher.match_data[:name]
   end
 
   def test_captures_response
-    msg = Cognition::Message.new('hello john')
-    matcher = Cognition::Matcher.new(/hello\s*(?<name>.*)/, {}, &Proc.new(&method(:dummy_method)))
+    msg = Cognition::Message.new("hello john")
+    matcher = Cognition::Matcher.new(/hello\s*(?<name>.*)/, {}, &proc(&method(:dummy_method)))
     matcher.attempt(msg)
     assert_equal "Hello john", matcher.response
   end
 
   def test_only_sets_help_when_help_provided
-    matcher_without_help = Cognition::Matcher.new(/hello\s*(?<name>.*)/, {}, &Proc.new(&method(:dummy_method)))
+    matcher_without_help = Cognition::Matcher.new(/hello\s*(?<name>.*)/, {}, &proc(&method(:dummy_method)))
     assert_equal [], matcher_without_help.help
   end
 
   def test_sets_help
-    matcher_with_help = Cognition::Matcher.new(/hello\s*(?<name>.*)/, {help: {'hello' => 'says hello'}}, &Proc.new(&method(:dummy_method)))
-    assert_equal ['hello - says hello'], matcher_with_help.help
+    matcher_with_help = Cognition::Matcher.new(/hello\s*(?<name>.*)/, { help: { "hello" => "says hello" } }, &proc(&method(:dummy_method)))
+    assert_equal ["hello - says hello"], matcher_with_help.help
   end
 
   def test_returns_error_if_method_returns_an_error
-    msg = Cognition::Message.new('error')
-    matcher_with_error = Cognition::Matcher.new(/error/, &Proc.new(&method(:error_method)))
+    msg = Cognition::Message.new("error")
+    matcher_with_error = Cognition::Matcher.new(/error/, &proc(&method(:error_method)))
     assert matcher_with_error.attempt(msg).match("'error' found, but raised")
   end
 end
 
-def dummy_method(msg, match_data)
+def dummy_method(_, match_data)
   "Hello #{match_data['name']}"
 end
 

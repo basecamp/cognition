@@ -1,5 +1,5 @@
-require 'minitest/autorun'
-require 'cognition'
+require "minitest/autorun"
+require "cognition"
 
 class PluginTest < Minitest::Test
   def setup

@@ -1,9 +1,9 @@
-require 'bundler/gem_tasks'
-require 'rake/testtask'
+require "bundler/gem_tasks"
+require "rake/testtask"
 
 Rake::TestTask.new do |t|
-  t.libs << 'test'
+  t.libs << "test"
 end
 
-desc 'Run tests'
+desc "Run tests"
 task :default => :test

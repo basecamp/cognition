@@ -1,17 +1,19 @@
 module Cognition
   module Plugins
     class Default < Cognition::Plugins::Base
+      # rubocop:disable Lint/AmbiguousRegexpLiteral
       match /^ping/i, :pong, help: {
-        'ping' => 'Test if the endpoint is responding. Returns PONG.'
+        "ping" => "Test if the endpoint is responding. Returns PONG."
       }
 
       match /^help\s*(?<command>.*)/i, :help, help: {
-        'help' => 'Lists all commands with help',
-        'help <command>' => 'Lists help for <command>'
+        "help" => "Lists all commands with help",
+        "help <command>" => "Lists help for <command>"
       }
+      # rubocop:enable Lint/AmbiguousRegexpLiteral
 
-      def pong(msg, match_data = nil)
-        'PONG'
+      def pong(*)
+        "PONG"
       end
 
       def help(msg, match_data = nil)

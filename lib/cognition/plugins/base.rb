@@ -1,6 +1,6 @@
-require 'erb'
-require 'tilt'
-require 'cgi'
+require "erb"
+require "tilt"
+require "cgi"
 
 module Cognition
   module Plugins
@@ -20,7 +20,7 @@ module Cognition
       # subclass, since we can't use __FILE__ here, and have it use the
       # subclass's location.
       def self.inherited(plugin)
-        plugin.view_root = File.dirname(caller[0].split(':',2).first)
+        plugin.view_root = File.dirname(caller[0].split(":", 2).first)
       end
 
       attr_accessor :matchers, :bot
@@ -51,23 +51,23 @@ module Cognition
 
       private
 
-        def template_file(name, type, extension)
-          # Defaults to html ERB for now. Override when calling #render(path_to_file)
-          File.join(templates_path, "#{name}.#{type}.#{extension}")
-        end
+      def template_file(name, type, extension)
+        # Defaults to html ERB for now. Override when calling #render(path_to_file)
+        File.join(templates_path, "#{name}.#{type}.#{extension}")
+      end
 
-        def underscore(string)
-          word = string.to_s.gsub(/::/, '/')
-          word.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
-          word.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
-          word.tr!("-", "_")
-          word.downcase!
-          word
-        end
+      def underscore(string)
+        word = string.to_s.gsub(/::/, "/")
+        word.gsub!(/([A-Z\d]+)([A-Z][a-z])/, "\1_\2")
+        word.gsub!(/([a-z\d])([A-Z])/, "\1_\2")
+        word.tr!("-", "_")
+        word.downcase!
+        word
+      end
 
-        def templates_path
-          File.expand_path("#{underscore(self.class.name)}/views", self.class.view_root)
-        end
+      def templates_path
+        File.expand_path("#{underscore(self.class.name)}/views", self.class.view_root)
+      end
     end
   end
 end

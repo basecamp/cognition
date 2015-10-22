@@ -1,4 +1,4 @@
-require 'httparty'
+require "httparty"
 module Cognition
   class Responder
     include HTTParty
@@ -11,7 +11,7 @@ module Cognition
 
     def reply(text)
       self.class.post(@uri, @options.merge(body: { content: text }))
-    rescue Timeout::Error => e
+    rescue Timeout::Error
       "Request to #{@uri} timed out."
     end
   end

@@ -1,15 +1,15 @@
-require 'cognition/message'
-require 'cognition/matcher'
-require 'cognition/responder'
-require 'cognition/plugins/base'
-require 'cognition/plugins/default'
+require "cognition/message"
+require "cognition/matcher"
+require "cognition/responder"
+require "cognition/plugins/base"
+require "cognition/plugins/default"
 
 module Cognition
   class Bot
     attr_accessor :plugins, :matchers
 
     def initialize
-      # Default plugin, responds to 'ping' with 'PONG' and provides help text
+      # Default plugin, responds to "ping" with "PONG" and provides help text
       register(Cognition::Plugins::Default)
     end
 
@@ -42,31 +42,31 @@ module Cognition
 
     private
 
-      def process_msg(msg)
-        response = false
-        matchers.each do |matcher|
-          if matcher.attempt(msg)
-            response = matcher.response
-            break
-          end
+    def process_msg(msg)
+      response = false
+      matchers.each do |matcher|
+        if matcher.attempt(msg)
+          response = matcher.response
+          break
         end
-        response ? response : not_found(msg.command)
       end
+      response ? response : not_found(msg.command)
+    end
 
-      def process_string(message, metadata = {})
-        process_msg(Cognition::Message.new(message.strip, metadata))
-      end
+    def process_string(message, metadata = {})
+      process_msg(Cognition::Message.new(message.strip, metadata))
+    end
 
-      def matchers
-        plugins.flat_map(&:matchers).compact
-      end
+    def matchers
+      plugins.flat_map(&:matchers).compact
+    end
 
-      def plugins
-        @plugins ||= []
-      end
+    def plugins
+      @plugins ||= []
+    end
 
-      def not_found(message)
-        "No such command: #{message}\nUse 'help' for available commands!"
-      end
+    def not_found(message)
+      "No such command: #{message}\nUse 'help' for available commands!"
+    end
   end
 end

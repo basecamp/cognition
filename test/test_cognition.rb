@@ -1,6 +1,6 @@
-require 'minitest/autorun'
-require 'cognition'
-require_relative 'fixtures/hello'
+require "minitest/autorun"
+require "cognition"
+require_relative "fixtures/hello"
 
 class CognitionTest < Minitest::Test
   def setup
@@ -21,21 +21,21 @@ class CognitionTest < Minitest::Test
   end
 
   def test_processes_messages
-    msg = Cognition::Message.new('ping')
-    assert_equal 'PONG', @bot.process(msg)
+    msg = Cognition::Message.new("ping")
+    assert_equal "PONG", @bot.process(msg)
   end
 
   def test_processes_strings
-    assert_equal 'PONG', @bot.process('ping')
+    assert_equal "PONG", @bot.process("ping")
   end
 
   def test_processes_strings_with_metadata
-    assert_equal 'PONG', @bot.process('ping', foo: 'bar')
+    assert_equal "PONG", @bot.process("ping", foo: "bar")
   end
 
   def test_shows_help_if_no_matches
     @bot.register(Hello)
-    msg = Cognition::Message.new('pong')
+    msg = Cognition::Message.new("pong")
     output = @bot.process(msg)
     assert_match "No such command: pong\nUse 'help' for available commands!", output
   end
