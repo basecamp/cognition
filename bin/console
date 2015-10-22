@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "cognition"
+
+puts "Get started with your Cognition bot by registering the 'Hello' test plugin!"
+puts "> test_bot = Cognition::Bot.new"
+puts '> require_relative "../test/fixtures/hello"'
+puts "> test_bot.register(Hello)\n\n"
+puts "Process commands with: "
+puts "> test_bot.process('message')\n\n"
+
+require "irb"
+IRB.start
