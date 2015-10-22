@@ -66,14 +66,13 @@ matches and logic that should be run:
 ```ruby
 class Hello < Cognition::Plugins::Base
   # Simple string based matcher. Must match *EXACTLY*
-  match 'hello', 'hello: Returns Hello World', :hello
+  match 'hello', :hello, help: { 'hello' => 'Returns Hello World' }
 
   # Advanced Regexp based matcher. Capture groups are made available
   # via MatchData in the matches method
   match /hello\s*(?<name>.*)/, :hello_person, help: {
     'hello <name>' => 'Greets you by name!'
   }
-
 
   def hello(*)
     'Hello World'
