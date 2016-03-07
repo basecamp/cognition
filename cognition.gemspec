@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["andnat@gmail.com"]
   spec.summary       = "A rules engine for running commands."
   spec.description   = "Match text; run commands. Works great for building a chatbot!"
-  spec.homepage      = "https://github.com/anoldguy/Cognition"
+  spec.homepage      = "https://github.com/basecamp/cognition"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
