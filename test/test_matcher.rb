@@ -74,18 +74,8 @@ class MatcherTest < Minitest::Test
     matcher_with_help = Cognition::Matcher.new(/hello\s*(?<name>.*)/, { help: { "hello" => "says hello" } }, &proc(&method(:dummy_method)))
     assert_equal ["hello - says hello"], matcher_with_help.help
   end
-
-  def test_returns_error_if_method_returns_an_error
-    msg = Cognition::Message.new("error")
-    matcher_with_error = Cognition::Matcher.new(/error/, &proc(&method(:error_method)))
-    assert matcher_with_error.attempt(msg).match("'error' found, but raised")
-  end
 end
 
 def dummy_method(_, match_data)
   "Hello #{match_data['name']}"
-end
-
-def error_method(*)
-  foobarcall
 end
