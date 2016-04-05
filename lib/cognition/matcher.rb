@@ -22,16 +22,8 @@ module Cognition
       run(msg)
     end
 
-    if ENV and ENV["RAILS_ENV"] == "production"
-      def run(msg)
-        @response = action.call(msg, match_data)
-      rescue => e
-        @response = "'#{msg.command}' found, but raised #{e.inspect}"
-      end
-    else
-      def run(msg)
-        @response = action.call(msg, match_data)
-      end
+    def run(msg)
+      @response = action.call(msg, match_data)
     end
 
     def matches?(msg)
