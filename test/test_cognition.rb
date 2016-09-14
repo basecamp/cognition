@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require "cognition"
 require_relative "fixtures/hello"
+require_relative "fixtures/anchor"
 
 class CognitionTest < Minitest::Test
   def setup
@@ -38,5 +39,11 @@ class CognitionTest < Minitest::Test
     msg = Cognition::Message.new("pong")
     output = @bot.process(msg)
     assert_match "No such command: pong\nUse 'help' for available commands!", output
+  end
+
+  def test_anchored_ping
+    @bot.register(Anchor)
+
+    assert_equal 'OK', @bot.process("ping me")
   end
 end
