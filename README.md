@@ -62,7 +62,9 @@ msg.reply("foo")   # Posts 'content=foo' to http://foo.bar/baz
 
 ## Creating a Plugin
 Creating plugins is easy. Subclass `Cognition::Plugins::Base` and setup your
-matches and logic that should be run:
+matches and logic that should be run.  Your methods will be passed the `msg`
+object and any `metadata` you've passed to the bot's `process` method.  Here's
+an example plugin:
 ```ruby
 class Hello < Cognition::Plugins::Base
   # Simple string based matcher. Must match *EXACTLY*
