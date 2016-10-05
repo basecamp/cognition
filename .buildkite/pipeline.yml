@@ -1,0 +1,25 @@
+env:
+  CI: 1
+  LANG: en_US.UTF-8
+  LC_CTYPE: en_US.UTF-8
+
+steps:
+  - name: ":ruby: Test"
+    command: bundle exec rake test
+    agents:
+      queue: elastic
+    plugins:
+      docker-compose:
+        run: gem
+
+  - name: "Load dynamic steps"
+    command: bin/dynamic_steps.sh | buildkite-agent pipeline upload --replace
+    agents:
+      queue: elastic
+
+  - wait
+
+  - name: "dummy step"
+    command: /bin/true
+    agents:
+      queue: elastic
