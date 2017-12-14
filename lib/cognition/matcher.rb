@@ -18,12 +18,13 @@ module Cognition
 
     def attempt(msg)
       return false unless matches?(msg)
-
       run(msg)
     end
 
     def run(msg)
       @response = action.call(msg, match_data)
+    rescue => e
+      @response = "#{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
     end
 
     def matches?(msg)

@@ -74,8 +74,19 @@ class MatcherTest < Minitest::Test
     matcher_with_help = Cognition::Matcher.new(/hello\s*(?<name>.*)/, { help: { "hello" => "says hello" } }, &proc(&method(:dummy_method)))
     assert_equal ["hello - says hello"], matcher_with_help.help
   end
+
+  def test_raises_exception_when_command_fails
+    msg = Cognition::Message.new("boom")
+    matcher = Cognition::Matcher.new(/boom/, {}, &proc(&method(:blow_up)))
+    matcher.attempt(msg)
+    assert matcher.response.is_a? Exception
+  end
 end
 
 def dummy_method(_, match_data)
   "Hello #{match_data['name']}"
+end
+
+def blow_up(msg, match_data)
+  raise ZeroDivisionError, "divided by 0"
 end
