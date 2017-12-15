@@ -79,7 +79,7 @@ class MatcherTest < Minitest::Test
     msg = Cognition::Message.new("boom")
     matcher = Cognition::Matcher.new(/boom/, {}, &proc(&method(:blow_up)))
     matcher.attempt(msg)
-    assert matcher.response.is_a? Exception
+    assert matcher.response.include? "ZeroDivisionError"
   end
 end
 
