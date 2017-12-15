@@ -45,7 +45,7 @@ module Cognition
     def process_msg(msg)
       response = false
       matchers.each do |matcher|
-        if matcher.attempt(msg)
+        if matcher.attempt(msg) != false
           response = matcher.response
           break
         end

@@ -81,6 +81,13 @@ class MatcherTest < Minitest::Test
     matcher.attempt(msg)
     assert matcher.response.include? "ZeroDivisionError"
   end
+
+  def test_empty_response_is_not_a_failure
+    msg = Cognition::Message.new("empty")
+    matcher = Cognition::Matcher.new(/empty/, {}, &proc {})
+    matcher.attempt(msg)
+    assert_equal "", matcher.response
+  end
 end
 
 def dummy_method(_, match_data)

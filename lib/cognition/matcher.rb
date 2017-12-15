@@ -22,7 +22,7 @@ module Cognition
     end
 
     def run(msg)
-      @response = action.call(msg, match_data)
+      @response = action.call(msg, match_data).to_s
     rescue => e
       @response = "#{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
     end
