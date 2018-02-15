@@ -4,7 +4,7 @@ module Cognition
 
     def initialize(trigger, options = {}, &action)
       fail ArgumentError, "matcher must have a trigger" unless trigger
-      fail ArgumentError, "matcher must have a action" unless action
+      fail ArgumentError, "matcher must have an action" unless action
       @trigger = trigger
       @help = options[:help] ||= {}
       @action = action
