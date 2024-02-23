@@ -1,7 +1,5 @@
-<table>
+<ul>
 <% @help.each do |text| %>
-  <tr>
-    <td><%= CGI.escapeHTML(text) %></td>
-  </tr>
+  <li><%= CGI.escapeHTML(text) %></li>
 <% end %>
-</table>
+</ul>
