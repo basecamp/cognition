@@ -1,9 +1,9 @@
 module Cognition
   class Message
-    attr_reader :command, :metadata, :responder
+    attr_reader :command, :filter, :metadata, :responder
 
     def initialize(command, metadata = {})
-      @command = command
+      @command, @filter = command.split("|").map(&:strip)
       @metadata = metadata
       @responder = Cognition::Responder.new(metadata["callback_url"]) if metadata["callback_url"]
     end
