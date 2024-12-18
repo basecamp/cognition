@@ -77,7 +77,10 @@ module Cognition
 
           filter = filter.sub(/^grep\s*/, "")
 
-          full_response.each_line.select { |line| line.downcase.include? filter.downcase }.join
+          full_response.each_line.select do |line|
+            line.downcase.include?(filter.downcase) ||
+              line.downcase.include?("ul>") # Don't strip wrapping ul tags
+          end.join
         end
     end
   end
