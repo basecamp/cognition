@@ -27,7 +27,10 @@ module Cognition
 
       def initialize(bot = nil)
         @matchers = self.class.definitions.collect do |trigger, method_name, options|
-          Matcher.new(trigger, options, &Proc.new(&method(method_name)))
+          Matcher.new(trigger, options) do |msg, match_data|
+            @msg = msg
+            method(method_name).call(msg, match_data)
+          end
         end
         @bot = bot
       end
@@ -44,30 +47,38 @@ module Cognition
         options = RENDER_DEFAULTS.merge(opts)
         calling_method = caller[0][/`([^']*)'/, 1]
         template = options[:template] || template_file(calling_method, options[:type], options[:extension])
-        Tilt.new(template).render(self, options[:locals])
+        filter Tilt.new(template).render(self, options[:locals])
       rescue Errno::ENOENT => e
         raise PluginTemplateNotFound, e
       end
 
       private
+        def template_file(name, type, extension)
+          # Defaults to html ERB for now. Override when calling #render(path_to_file)
+          File.join(templates_path, "#{name}.#{type}.#{extension}")
+        end
 
-      def template_file(name, type, extension)
-        # Defaults to html ERB for now. Override when calling #render(path_to_file)
-        File.join(templates_path, "#{name}.#{type}.#{extension}")
-      end
+        def templates_path
+          File.expand_path("#{underscore(self.class.name)}/views", self.class.view_root)
+        end
 
-      def underscore(string)
-        word = string.to_s.gsub(/::/, "/")
-        word.gsub!(/([A-Z\d]+)([A-Z][a-z])/, "\\1_\\2")
-        word.gsub!(/([a-z\d])([A-Z])/, "\\1_\\2")
-        word.tr!("-", "_")
-        word.downcase!
-        word
-      end
+        def underscore(string)
+          word = string.to_s.gsub(/::/, "/")
+          word.gsub!(/([A-Z\d]+)([A-Z][a-z])/, "\\1_\\2")
+          word.gsub!(/([a-z\d])([A-Z])/, "\\1_\\2")
+          word.tr!("-", "_")
+          word.downcase!
+          word
+        end
 
-      def templates_path
-        File.expand_path("#{underscore(self.class.name)}/views", self.class.view_root)
-      end
+        def filter(full_response)
+          filter = @msg&.filter
+          return full_response unless filter
+
+          filter = filter.sub(/^grep\s*/, "")
+
+          full_response.each_line.select { |line| line.downcase.include? filter.downcase }.join
+        end
     end
   end
 end

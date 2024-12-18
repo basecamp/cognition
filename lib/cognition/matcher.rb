@@ -22,8 +22,7 @@ module Cognition
     end
 
     def run(msg)
-      full_response = action.call(msg, match_data).to_s
-      @response = filter(full_response, msg.filter)
+      @response = action.call(msg, match_data).to_s
     rescue => e
       @response = "#{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
     end
@@ -36,14 +35,5 @@ module Cognition
         @match_data = trigger.match msg.command
       end
     end
-
-    private
-      def filter(full_response, filter)
-        return full_response unless filter
-
-        filter = filter.sub(/^grep\s*/, "")
-
-        full_response.each_line.select { |line| line.include? filter }.join
-      end
   end
 end
