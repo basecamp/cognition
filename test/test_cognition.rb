@@ -46,4 +46,10 @@ class CognitionTest < Minitest::Test
 
     assert_equal 'OK', @bot.process("ping me")
   end
+
+  def test_grep
+    msg = Cognition::Message.new("help | grep endpoint")
+    output = @bot.process(msg)
+    assert_equal "ping - Test if the endpoint is responding. Returns PONG.", output
+  end
 end
