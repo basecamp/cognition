@@ -45,7 +45,9 @@ module Cognition
 
       def render(opts = {})
         options = RENDER_DEFAULTS.merge(opts)
-        calling_method = caller[0][/`([^']*)'/, 1]
+        # ruby <= 3.3.6: test.rb:9:in `c'
+        # ruby >= 3.4.1: test.rb:9:in 'A#c'
+        calling_method = caller[0][/[`'](?:.*#)?([^']*)'/, 1]
         template = options[:template] || template_file(calling_method, options[:type], options[:extension])
         filter Tilt.new(template).render(self, options[:locals])
       rescue Errno::ENOENT => e
