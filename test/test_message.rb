@@ -17,4 +17,40 @@ class CognitionTest < Minitest::Test
     msg = Cognition::Message.new("ping", user: { name: "foo", id: 123_456 })
     refute msg.responder
   end
+
+  def test_splits_command_and_filter_on_pipe
+    msg = Cognition::Message.new("alerts | grep CPU")
+    assert_equal "alerts", msg.command
+    assert_equal "grep CPU", msg.filter
+  end
+
+  def test_preserves_pipe_inside_double_quotes
+    msg = Cognition::Message.new('silence env=~"^(prod|staging)$" 30')
+    assert_equal 'silence env=~"^(prod|staging)$" 30', msg.command
+    assert_nil msg.filter
+  end
+
+  def test_preserves_literal_pipe_in_quoted_value
+    msg = Cognition::Message.new('silence resource="foo|bar"')
+    assert_equal 'silence resource="foo|bar"', msg.command
+    assert_nil msg.filter
+  end
+
+  def test_splits_on_pipe_after_quoted_string
+    msg = Cognition::Message.new('silence env=~"^(prod|staging)$" | grep foo')
+    assert_equal 'silence env=~"^(prod|staging)$"', msg.command
+    assert_equal "grep foo", msg.filter
+  end
+
+  def test_command_without_pipe
+    msg = Cognition::Message.new("ping")
+    assert_equal "ping", msg.command
+    assert_nil msg.filter
+  end
+
+  def test_multiple_pipes_outside_quotes
+    msg = Cognition::Message.new("alerts | grep CPU | head")
+    assert_equal "alerts", msg.command
+    assert_equal "grep CPU | head", msg.filter
+  end
 end
